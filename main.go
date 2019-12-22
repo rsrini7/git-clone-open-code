@@ -24,6 +24,10 @@ func isDirExist(dirName string) bool {
 }
 
 func main() {
+	parseArgsAndExecute()
+}
+
+func parseArgsAndExecute() bool {
 	var path string
 	if len(os.Args) != 2 {
 		log.Fatal("Should have git url as second arg")
@@ -55,4 +59,5 @@ func main() {
 		log.Println("Git Repo Downloaded. Opening in VS-Code...")
 		openInVSCode(lastPath)
 	}
+	return true
 }
