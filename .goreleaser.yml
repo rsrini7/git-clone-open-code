@@ -1,8 +1,8 @@
-project_name: git-clone-open-vscode
+project_name: git-clone-open-code
 release:
   github:
     owner: rsrini7
-    name: git-clone-open-vscode
+    name: git-clone-open-code
   name_template: '{{.Tag}}'
 builds:
 - goos:
@@ -15,7 +15,7 @@ builds:
   - "6"
   main: .
   ldflags: -s -w -X main.Version={{.Version}}  -X main.BuildDate={{.Date}}
-  binary: git-clone-open-vscode
+  binary: git-clone-open-code
 archive:
   format: tar.gz
   name_template: '{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{
