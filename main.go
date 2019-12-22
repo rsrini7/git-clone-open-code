@@ -7,11 +7,13 @@ import (
 	"strings"
 )
 
-func openInVSCode(folder string) {
-	_, err := exec.Command("code", folder).Output()
-	if err != nil {
-		log.Fatal("Not able to open vscode from ", folder, err)
+func openInVSCode(folder string) bool {
+	if isDirExist(folder) {
+		log.Println("Git Repo already exist. Opening in VS-Code...")
+		exec.Command("code", folder).Output()
+		return true
 	}
+	return false
 }
 
 func isDirExist(dirName string) bool {
@@ -21,6 +23,10 @@ func isDirExist(dirName string) bool {
 		return false
 	}
 	return info.IsDir()
+}
+
+func removeDir(dirName string) {
+	os.RemoveAll(dirName)
 }
 
 func main() {
@@ -37,27 +43,27 @@ func parseArgsAndExecute() bool {
 	path = os.Args[1]
 
 	lastPath := path[strings.LastIndex(path, "/")+1:]
-	if isDirExist(lastPath) {
-		log.Println("Git Repo already exist. Opening in VS-Code...")
-		openInVSCode(lastPath)
+
+	if ok := openInVSCode(lastPath); ok {
 		os.Exit(0)
-	} else {
-		log.Println("Git Repo Downloading...")
 	}
+
+	log.Println("Git Remote Repo availablity checking...")
 
 	_, err := exec.Command("git", "ls-remote", path).Output()
 	if err != nil {
 		log.Fatal("Not a valid git repo: ", path)
 	}
 
+	log.Println("Git Remote Repo Downloading...")
+
 	_, err = exec.Command("git", "clone", path).Output()
 	if err != nil {
 		log.Fatal("Not able to do git clone from ", path)
 	}
 
-	if isDirExist(lastPath) {
-		log.Println("Git Repo Downloaded. Opening in VS-Code...")
-		openInVSCode(lastPath)
-	}
+	log.Println("Git Repo Downloaded. Opening in VS-Code...")
+	openInVSCode(lastPath)
+
 	return true
 }
