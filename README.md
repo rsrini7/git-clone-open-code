@@ -4,6 +4,7 @@ Git Clone Open in VSCode
 
 Replaced with Simple Powershell Function
 
+```powershell
 function gcode {
   $url = $args[0]
   $folder = Split-Path $url -Leaf
@@ -14,3 +15,4 @@ function gcode {
 	git clone $url && code $folder
   }
 }
+```
