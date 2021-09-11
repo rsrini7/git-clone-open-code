@@ -8,6 +8,7 @@ Replaced with Simple Powershell Function
 function gcode {
   $url = $args[0]
   $folder = Split-Path $url -Leaf
+  $folder = $folder -replace ".git", ""
   if(Test-Path $folder){
 	Write-Output "Opening existing folder"
 	code $folder
